@@ -1,28 +1,24 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
 
+//INTERNAL
 const { getDefaultDB } = require('../../infrastructures/mongoose');
 
-const schema = mongoose.Schema;
-
-const RoleSchema = new schema(
-  {
+const RoleSchema = new Schema({
     uid: {
-      type: String,
-      unique: true,
-      required: true,
-      index: true,
+        type: String,
+        unique: true,
+        required: true,
+        index: true,
     },
     name: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     status: {
-      type: Boolean,
-      required: true,
+        type: Boolean,
+        required: true,
     },
-  },
-  { timestamps: true },
-);
+}, { timestamps: true }, );
 RoleSchema.plugin(mongooseDelete, { overrideMethods: true });
 module.exports = getDefaultDB().model('Roles', RoleSchema);

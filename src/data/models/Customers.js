@@ -1,92 +1,83 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
+//INTERNAL
 const { getDefaultDB } = require('../../infrastructures/mongoose');
 const { hashText } = require('../../libs/bcrypt_helper');
-//const Customer = require('../../models/customer');
-const schema = mongoose.Schema;
 
-const CustomerSchema = mongoose.Schema(
-  {
+const CustomerSchema = new Schema({
     uid: {
-      type: String,
-      unique: true,
-      required: true,
-      index: true,
+        type: String,
+        unique: true,
+        required: true,
+        index: true,
     },
     code: {
-      type: String,
-      unique: true,
-      required: true,
+        type: String,
+        unique: true,
+        required: true,
     },
     name: {
-      type: String,
+        type: String,
     },
     nameUnsigned: {
-      type: String,
+        type: String,
     },
     username: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     password: {
-      type: String,
+        type: String,
     },
     firstName: {
-      type: String,
+        type: String,
     },
     lastName: {
-      type: String,
+        type: String,
     },
     dateOfBirth: {
-      type: String,
+        type: String,
     },
     sex: {
-      type: String,
+        type: String,
     },
     phone: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     email: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     status: {
-      type: Boolean,
+        type: Boolean,
     },
     avatar: {
-      type: String,
+        type: String,
     },
-    address: [
-      {
+    address: [{
         street: {
-          type: String,
+            type: String,
         },
         province: {
-          type: String,
+            type: String,
         },
         district: {
-          type: String,
+            type: String,
         },
         ward: {
-          type: String,
+            type: String,
         },
         status: {
-          type: Boolean,
+            type: Boolean,
         },
-      },
-    ],
-  },
-  { timestamps: true },
-);
-CustomerSchema.pre('save', function (next) {
-  const customer = this;
-  customer.password = hashText(customer.password);
-  next();
+    }, ],
+}, { timestamps: true }, );
+CustomerSchema.pre('save', function(next) {
+    const customer = this;
+    customer.password = hashText(customer.password);
+    next();
 });
 
 CustomerSchema.plugin(mongooseDelete, { overrideMethods: true });
